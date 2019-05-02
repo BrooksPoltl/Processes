@@ -11,6 +11,14 @@
 int main(void)
 {
     // Your code here    
-
+    pid_t pid = fork();
+    if(pid == 0){
+        char *myargs[3];
+        myargs[0] == strdup("/bin/ls");
+        myargs[1] == NULL;
+        execvp(myargs[0], myargs);
+    }else{
+        int wc = waitpid(pid,NULL,0);
+    }
     return 0;
 }

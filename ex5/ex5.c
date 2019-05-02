@@ -14,9 +14,23 @@ char* msg1 = "hello world #1";
 char* msg2 = "hello world #2";
 char* msg3 = "hello world #3";
 
-int main(void)
-{
-    // Your code here
-    
-    return 0;
-}
+int main(void) 
+{ 
+    int pid = fork();
+    char inbuf[MSGSIZE]; 
+    int fd[2], i;
+    pipe(fd);
+    if (pipe(fd) < 0){
+        exit(1); 
+    }   
+    write(fd[1], msg1, MSGSIZE); 
+    write(fd[1], msg2, MSGSIZE); 
+    write(fd[1], msg3, MSGSIZE); 
+    if(pid> 0){
+        for (i = 0; i < 3; i++) { 
+        read(fd[0], inbuf, MSGSIZE); 
+        printf("process is: %d \n message is: %s\n", pid, inbuf); 
+        } 
+    }
+    return 0; 
+} 

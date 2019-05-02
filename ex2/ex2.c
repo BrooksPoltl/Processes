@@ -12,12 +12,13 @@ int main(void)
     f = fopen("text.txt","a+");
     fseek(f,0, SEEK_SET);
     char data[100];
-    pid_t pid = fork();
     fwrite("hi", 1, sizeof("hi"), f);
+    fread(data,20,1,f);
+    pid_t pid = fork();
     if(pid == 0){
         fseek(f,0, SEEK_SET);
         printf("I am the child: %d\n", (int) getpid());
-        fread(data,20,1,f);
+        
         printf("the child content is: %s\n", data);
     }
     else if (pid > 0){
@@ -26,6 +27,7 @@ int main(void)
         fread(data,20,1,f);
         printf("the parent content is: %s\n", data);
     }
+
     fclose(f);
     return 0;
 }
